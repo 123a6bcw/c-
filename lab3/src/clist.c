@@ -30,22 +30,21 @@ struct intrusive_node *remove_node(struct intrusive_list *l, struct intrusive_no
     {
         if (l -> head -> next == l -> head)
         {
-            free(l -> head);
             l -> head = NULL;
             return NULL;
         }
         
         struct intrusive_node *new_head = l -> head -> next;
-        free(l -> head);
+        new_head -> prev = l -> head -> prev;
+        l -> head -> prev -> next = new_head;
         l -> head = new_head;
         return new_head;
     }
     
     struct intrusive_node *return_value = n -> next;
     
-    (n -> prev) -> next = n -> next;
-    (n -> next) -> prev = n -> prev;
-    free(n); 
+    n -> prev -> next = n -> next;
+    n -> next -> prev = n -> prev;
     
     return return_value;
 }

@@ -6,7 +6,7 @@
 struct position_node
 {
   int x, y;
-  struct intrusive_node *node;
+  struct intrusive_node node;
 };
 
 void remove_position(struct intrusive_list *l, int x, int y)    
@@ -16,9 +16,15 @@ void remove_position(struct intrusive_list *l, int x, int y)
         return;
     }
     
-    struct intrusive_node *ptr = l -> head;
+    int head_steps = 0;
+    struct intrusive_node *ptr = l -> head -> next;
     do
     {
+        if (ptr == l -> head)
+        {
+            head_steps++;
+        }
+        
         struct position_node *item = container_of(ptr, struct position_node, node);
         
         if (item -> x == x && item -> y == y)
@@ -29,21 +35,18 @@ void remove_position(struct intrusive_list *l, int x, int y)
         {
             ptr = ptr -> next;
         }
-        
-    } while (ptr != NULL && ptr != l -> head);
+    } while (ptr != NULL && head_steps < 1);
     
     return;
 }
 
 void add_positon(struct intrusive_list *l, int x, int y) 
 {
-     struct position_node *new_point = malloc(sizeof(*new_point));
-     struct intrusive_node *new_node = malloc(sizeof(*new_node));   
-     add_node(l, new_node);
-     
+     struct position_node *new_point = malloc(sizeof(*new_point));  
+     add_node(l, &(new_point -> node));
+          
      new_point -> x = x;
      new_point -> y = y;
-     new_point -> node = new_node;
      return;
 }
 
@@ -86,7 +89,6 @@ void remove_all_positions(struct intrusive_list *l)
         struct position_node *item = container_of(ptr, struct position_node, node);
         
         ptr = remove_node(l, ptr);
-        printf("%i%i", item -> x, item -> y);
         free(item);       
     } while (ptr != NULL);
 }
