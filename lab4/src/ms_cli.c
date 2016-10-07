@@ -27,22 +27,33 @@ int main(int argc, char* argv[])
     if (strcmp(argv[1], "int") == 0)
     {
         compar = compare_int;
-        size = 4;
+        size = sizeof(int);
     } else
     if (strcmp(argv[1], "char") == 0)
     {
         compar = compare_char;
-        size = 1;
+        size = sizeof(char);
     } else
     if (strcmp(argv[1], "str") == 0)
     {
         compar = compare_string;
-        size = 100;
+        
+        for (size_t i = 2; i < argc; i++)
+        {
+            size_t calc;
+            for (calc = 0; argv[i][calc] != '\0'; calc++);
+            
+            if (calc + 1 > size)
+            {
+                size = calc + 1;
+            }
+        }
+        
+        size *= sizeof(char);
     }
 
     size_t num = argc - 2;
-    void *a = malloc(num * size * 8);
-    
+    void *a = malloc(num * size);
     for (size_t i = 0; i < num; i++)
     {
         if (strcmp(argv[1], "int") == 0)

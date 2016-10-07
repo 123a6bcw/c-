@@ -52,8 +52,7 @@ void merge(void *source, size_t size, int (*compar)(const void*,const void*), si
 
 int mergesort (void *base, size_t num, size_t size, int (*compar)(const void*,const void*))
 {
-    void *auxiliary = malloc(num * size * 8);
-    void *auxiliary_free = auxiliary;
+    void *auxiliary = malloc(num * size);
     
     size_t k;
     for (k = 1; (1 << (k - 1)) <= num; k++)
@@ -68,7 +67,16 @@ int mergesort (void *base, size_t num, size_t size, int (*compar)(const void*,co
                 middle = i + (1 << (k - 1)) - 1;
             }
             
-            merge(base, size, compar, i, middle, middle + 1, right, auxiliary);
+            if (middle < right)
+            {
+                merge(base, size, compar, i, middle, middle + 1, right, auxiliary);
+            } else
+            {
+                for (size_t j = i; j < num; j++)
+                {
+                    copy(base, size, j, auxiliary, j);
+                }
+            }
         }
 
         void *swap = auxiliary;
@@ -82,8 +90,12 @@ int mergesort (void *base, size_t num, size_t size, int (*compar)(const void*,co
         {
             copy(base, size, i, auxiliary, i);
         }
+        
+        void *swap = auxiliary;
+        auxiliary = base;
+        base = swap;
     } 
 
-    free(auxiliary_free);
+    free(auxiliary);
     return 0;
 }
