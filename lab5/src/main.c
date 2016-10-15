@@ -17,6 +17,8 @@ int readbin(int *points, int *n, FILE *f)
         {
             return 0;
         }
+        
+        *((char*)(points + (*n) + times) + 3) = 0;
     }
     
     return 1;
@@ -31,7 +33,7 @@ int *load(char *open_type, char *file_name, int *n, int(*readfunc)(int *, int *,
     {
         if ((*n) >= np)
         {
-            points = realloc(points, 2 * np * sizeof(int));
+            points = realloc(points, 2 * np * sizeof(int)); 
             np *= 2;
         }
         
@@ -62,7 +64,7 @@ void savetext(char *file_name, int *points, int n)
 	FILE *f = fopen(file_name, "wt");
 	for (int i = 0; i < n; i += 2)
 	{
-	    fprintf(f, "%d %d", *(points + i), *(points + i + 1));
+	    fprintf(f, "%d %d\n", *(points + i), *(points + i + 1));
 	}
 	fclose(f);
 }
