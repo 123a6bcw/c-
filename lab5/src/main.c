@@ -4,25 +4,30 @@
 #include <stdio.h>
 #include <string.h>
 
-void readtext(int *points, int *n, FILE *f)
+int readtext(int *points, int *n, FILE *f)
 {
-    fscanf(f, "%d%d", points + (*n), points + (*n) + 1);
+    return fscanf(f, "%d%d", points + (*n), points + (*n) + 1);
 }
 
-void readbin(int *points, int *n, FILE *f)
+int readbin(int *points, int *n, FILE *f)
 {
     for (int times = 0; times <= 1; times++)
     {
-        fread((char*)(points + (*n) + times), sizeof(char), 3, f);
+        if (fread((char*)(points + (*n) + times), sizeof(char), 3, f) == 0)
+        {
+            return 0;
+        }
     }
+    
+    return 1;
 }
 
-int *load(char *open_type, char *file_name, int *n, void(*readfunc)(int *, int *, FILE *))
+int *load(char *open_type, char *file_name, int *n, int(*readfunc)(int *, int *, FILE *))
 {
     FILE *f = fopen(file_name, open_type);  
     size_t np = 2;
     int *points = malloc(np * sizeof(int));
-    while (!feof(f))
+    while (1)
     {
         if ((*n) >= np)
         {
@@ -30,15 +35,13 @@ int *load(char *open_type, char *file_name, int *n, void(*readfunc)(int *, int *
             np *= 2;
         }
         
-        readfunc(points, n, f);
-        
+        if (readfunc(points, n, f) <= 0)
+        {
+            break;
+        }
+          
         (*n) += 2;
-    }
-    
-    if ((*n) > 0)
-    {
-        (*n) -= 2;
-    }
+    }    
     
     fclose(f);    
     return points;
@@ -59,7 +62,7 @@ void savetext(char *file_name, int *points, int n)
 	FILE *f = fopen(file_name, "wt");
 	for (int i = 0; i < n; i += 2)
 	{
-	    fprintf(f, "%d %d\n", *(points + i), *(points + i + 1));
+	    fprintf(f, "%d %d", *(points + i), *(points + i + 1));
 	}
 	fclose(f);
 }
