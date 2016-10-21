@@ -48,6 +48,11 @@ void MyVector::reserve(std::size_t new_capacity)
 
 void MyVector::resize(std::size_t new_size)
 {
+    if (new_size < (this -> _sz))
+    {
+        this -> _sz = new_size;
+    }
+    
     if (new_size > (this -> _cp))
     {
         this -> reserve(2 * new_size);
