@@ -2,9 +2,9 @@
 
 MyVector::MyVector()
 {
-    this -> _data = new int[0];
+    this -> _data = new int[2];
     this -> _sz = 0;
-    this -> _cp = 0;
+    this -> _cp = 2;
 }
 
 MyVector::MyVector(std::size_t init_capacity)
@@ -60,7 +60,11 @@ void MyVector::reserve(std::size_t new_capacity)
     
     delete [] (this -> _data);
     this -> _data = _data_new; 
-    this -> _cp = new_capacity;
+    
+    if (new_capacity > (this -> _cp))
+    {
+        this -> _cp = new_capacity;
+    }
 }
 
 void MyVector::resize(std::size_t new_size)
@@ -68,22 +72,26 @@ void MyVector::resize(std::size_t new_size)
     if (new_size < (this -> _sz))
     {
         this -> _sz = new_size;
+        return;
     }
     
     if (new_size > (this -> _cp))
     {
-        this -> reserve(2 * new_size);
+        std::size_t _new_capacity = this -> _cp;
+        while (_new_capacity < new_size)
+        {
+            _new_capacity *= 2;
+        }
+        
+        this -> reserve(_new_capacity);
     }
     
-    for (std::size_t i = (this -> _sz); i < new_size; i++)
-    {
-        this -> push_back(0);
-    }
+    this -> _sz = new_size;
 }
 
 void MyVector::push_back(int value)
 {
-    if ((this -> _sz) + 1 >= this -> _cp)
+    if ((this -> _sz) + 1 > this -> _cp)
     {
         this -> reserve(2 * (this -> _cp));
     }
@@ -100,7 +108,7 @@ void MyVector::insert(std::size_t index, int value)
         return;
     }
     
-    if ((this -> _sz) + 1 >= (this -> _cp))
+    if ((this -> _sz) + 1 > (this -> _cp))
     {
         this -> reserve(2 * (this -> _cp));
     }
