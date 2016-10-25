@@ -50,6 +50,11 @@ std::size_t MyVector::capacity()
 
 void MyVector::reserve(std::size_t new_capacity)
 {
+    if (new_capacity <= (this -> _cp))
+    {
+        return;
+    }
+    
     int *_data_new = new int[new_capacity];
     for (std::size_t i = 0; i < (this -> _sz); i++)
     {    
