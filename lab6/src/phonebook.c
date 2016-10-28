@@ -84,7 +84,6 @@ int load_phonebook_xml(const char *filename, phonebook_t *book)
     if (fp == NULL) 
     {
         printf("Failed to open file\n");
-        fclose(fp);
         return 1;
     }
 
@@ -125,7 +124,6 @@ int save_phonebook_xml(const char *filename, phonebook_t *book)
     if (fp == NULL) 
     {
         printf("Failed to open file\n");
-        fclose(fp);
         return 1;
     }
     fprintf(fp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
