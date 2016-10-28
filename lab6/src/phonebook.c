@@ -6,7 +6,7 @@
 #include "../include/names.h"
 #include "../include/phonebook.h"
 
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 2048
 
 void push_back_human(phonebook_t *book, human_t *human)
 {
@@ -52,7 +52,7 @@ void end_element(void *data, const char *element)
 
 void handle_data(void *data, const char *content, int length)
 {
-    if (length > 0 && new_phone) 
+    if (length > 0 && isdigit(content[0])) 
     {
 		char *phone = malloc((length + 1) * sizeof(char));
 		memcpy(phone, content, length * sizeof(char));		
@@ -60,9 +60,14 @@ void handle_data(void *data, const char *content, int length)
 		human_t *human = &(((phonebook_t *)data)->humans[((phonebook_t *)data)->size - 1]);
 	    for (size_t j = 0; j < 10; j++)
 	    {
-	        if (human->phones[j][0] == '\0')
+	        if (human->phones[j][0] == '\0' && new_phone)
 	        {
 	            strcpy(human->phones[j], phone);
+	            break;
+	        } else
+	        if ((j == 9 || human->phones[j + 1][0] == '\0') && !new_phone)
+	        {
+	            strcat(human->phones[j], phone);
 	            break;
 	        }
 		}
@@ -86,13 +91,13 @@ int load_phonebook_xml(const char *filename, phonebook_t *book)
         printf("Failed to open file\n");
         return 1;
     }
-
+    
     XML_Parser  parser = XML_ParserCreate(NULL);
     XML_SetElementHandler(parser, start_element, end_element);
     XML_SetCharacterDataHandler(parser, handle_data);
     XML_SetUserData(parser, book);
 
-    memset(buff, 0, BUFFER_SIZE);
+    memset(buff, 0, BUFFER_SIZE * sizeof(char));
 
     size_t len = 0;
     int done = 0;
