@@ -156,7 +156,11 @@ void print_phonebook(phonebook_t *book)
         {
             printf("phone: %s\n", book->humans[i].phones[j]);
 	    }
-	    printf("\n");
+	    
+	    if (i < book->size - 1)
+	    {
+	        printf("\n");
+	    }
     }
 }
 
