@@ -6,7 +6,7 @@
 #include "../include/names.h"
 #include "../include/phonebook.h"
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 2000
 
 void push_back_human(phonebook_t *book, human_t *human)
 {
