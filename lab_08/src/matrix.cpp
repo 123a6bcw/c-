@@ -24,7 +24,6 @@ Matrix::Matrix(const Matrix& that)
     {
         this->_data[i] = data_map + i * that._cols;
     }
-    
     for (i = 0; i < that._rows; i++)
     {
         std::size_t j;
@@ -47,12 +46,10 @@ Matrix& Matrix::operator=(const Matrix& that)
     {
         return *this;
     }
-    
     Matrix new_matrix(that);
     std::swap(this->_rows, new_matrix._rows);
     std::swap(this->_cols, new_matrix._cols);
     std::swap(this->_data, new_matrix._data);
-    
     return *this;
 }
 
@@ -102,7 +99,6 @@ bool Matrix::operator==(const Matrix& that) const
     {
         return false;
     }
-    
     std::size_t i;
     for (i = 0; i < this->_rows; i++)
     {
@@ -115,7 +111,6 @@ bool Matrix::operator==(const Matrix& that) const
             }
         }
     }
-    
     return true;
 }
 
@@ -135,7 +130,6 @@ Matrix& Matrix::operator+=(const Matrix& that)
             this->_data[i][j] += that._data[i][j];
         }
     }
-    
     return *this;
 }
 
@@ -150,7 +144,6 @@ Matrix& Matrix::operator-=(const Matrix& that)
             this->_data[i][j] -= that._data[i][j];
         }
     }
-    
     return *this;
 }
 
@@ -166,7 +159,7 @@ Matrix Matrix::operator+(const Matrix& that) const
 
 Matrix Matrix::operator-(const Matrix& that) const
 {
-    return Matrix(that) -= *this;
+    return Matrix(*this) -= that;
 }
 
 Matrix Matrix::operator*(const Matrix& that) const
@@ -176,15 +169,14 @@ Matrix Matrix::operator*(const Matrix& that) const
     for (i = 0; i < this->_rows; i++)
     {
         std::size_t j;
-		for (j = 0; j < that._cols; j++)
-	    {
-	        std::size_t k;
-			for (k = 0; k < this->_cols; k++)
-			{
-		    	res._data[i][j] += this->_data[i][k] * that._data[k][j];
-		    }
-		}
+        for (j = 0; j < that._cols; j++)
+        {
+            std::size_t k;
+            for (k = 0; k < this->_cols; k++)
+            {
+                res._data[i][j] += this->_data[i][k] * that._data[k][j];
+            }
+        }
     }
-    
     return res;
 }
