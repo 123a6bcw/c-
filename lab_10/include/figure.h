@@ -10,8 +10,6 @@ class Figure {
     virtual void zoom(int factor) = 0;
     void move(int new_x, int new_y);
     int get_id() const;
-    int get_x() const;
-    int get_y() const;
   protected:
     int id;
     int x;

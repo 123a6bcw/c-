@@ -19,13 +19,3 @@ int Figure::get_id() const
 {
     return id;
 }
-
-int Figure::get_x() const
-{
-    return x;
-}
-
-int Figure::get_y() const
-{
-    return y;
-}
