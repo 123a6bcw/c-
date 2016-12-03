@@ -55,13 +55,15 @@ void Scheme::zoom_figure(int id, int factor)
 
 Figure* Scheme::is_inside_figure(int x, int y)
 {
-    for (std::size_t i = 0;;i++)
+    for (std::size_t i = 0; figures_[i] != NULL; i++)
     {
         if (figures_[i]->is_inside(x, y))
         {
             return figures_[i];
         }
     }
+    
+    return NULL;
 }
 
 void Scheme::move(int id, int new_x, int new_y)

@@ -11,16 +11,16 @@ void my_test()
     scheme.push_back_figure(new Rectangle(1, 1, 1, 1, 1));
     scheme.push_back_figure(new Circle(2, 1, 1, 1, ""));
     scheme.print_all_figures();
-    scheme.is_inside_figure(1, 1) -> print();
+    scheme.is_inside_figure(1, 1)->print();
     scheme.move(1, 2, 2);
     scheme.print_all_figures();
-    scheme.is_inside_figure(1, 1) -> print();
+    scheme.is_inside_figure(1, 1)->print();
     scheme.move(2, 0, 0);
     scheme.zoom_figure(2, 100);
     scheme.print_all_figures();
-    scheme.is_inside_figure(1, 1) -> print();
+    scheme.is_inside_figure(1, 1)->print();
     scheme.zoom_figure(1, 2);
-    scheme.is_inside_figure(1, 1) -> print();
+    scheme.is_inside_figure(1, 1)->print();
     scheme.push_back_figure(new Rectangle(4, 1, 1, 1, 1));
     scheme.push_back_figure(new Circle(5, 1, 1, 1, "n2"));
     scheme.remove_figure(4);
@@ -31,6 +31,16 @@ void my_test()
     scheme.print_all_figures();
     scheme.remove_figure(5);
     scheme.print_all_figures();
+    scheme.push_back_figure(new Rectangle(1, 0, 0, 5, 5));
+    scheme.push_back_figure(new Rectangle(2, 100, 100, 6, 6));
+    scheme.is_inside_figure(2, 2)->print();
+    printf("%i\n", scheme.is_inside_figure(3, 3) == NULL);
+    scheme.is_inside_figure(103, 97)->print();
+    scheme.is_inside_figure(103, 100)->print();
+    scheme.push_back_figure(new Circle(3, -100, -100, 5, "ya krug"));
+    scheme.is_inside_figure(-100, -100)->print();
+    scheme.is_inside_figure(-105, -100)->print();
+    scheme.is_inside_figure(-100, -95)->print();
 }
 
 int main() {
