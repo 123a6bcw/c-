@@ -3,7 +3,7 @@
 Circle::Circle(int id, int x, int y, int radius, const char* label):Figure(id, x, y)
 {
     this->radius = radius;
-    this->label = new char[100];
+    this->label = new char[100]();
     strcpy(this->label, label);
 }
 

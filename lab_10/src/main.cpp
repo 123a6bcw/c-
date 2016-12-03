@@ -71,6 +71,6 @@ int main() {
     scheme.remove_figure(1);
     scheme.print_all_figures();
     
-    //my_test();
+    my_test();
     return 0;
 }

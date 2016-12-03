@@ -30,7 +30,7 @@ void Scheme::remove_figure(int id)
         {
             delete figures_[i];
             figures_[i] = NULL;
-            for (; figures_[i + 1] != NULL; i++)
+            for (; i + 1 < size && figures_[i + 1] != NULL; i++)
             {
                 std::swap(figures_[i], figures_[i + 1]);
             }
