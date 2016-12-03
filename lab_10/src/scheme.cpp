@@ -3,7 +3,7 @@
 Scheme::Scheme(int capacity)
 {
     figures_ = new Figure* [capacity]();
-    this->size = 0;
+    size = 0;
 }
 
 Scheme::~Scheme()
