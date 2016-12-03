@@ -18,5 +18,6 @@ class Scheme{
     Figure* get_by_id(int id);
 
   private:
+    size_t size;
     Figure** figures_; // размер массива задается в конструкторе и больше не растет
 };

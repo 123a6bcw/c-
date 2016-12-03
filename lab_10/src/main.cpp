@@ -41,6 +41,14 @@ void my_test()
     scheme.is_inside_figure(-100, -100)->print();
     scheme.is_inside_figure(-105, -100)->print();
     scheme.is_inside_figure(-100, -95)->print();
+    
+    Scheme scheme2(2);
+    scheme2.push_back_figure(new Rectangle(1, 1, 1, 1, 1));
+    scheme2.push_back_figure(new Circle(2, 1, 1, 1, "check"));
+    scheme2.print_all_figures();
+    scheme2.remove_figure(2);
+    scheme2.push_back_figure(new Circle(2, 1, 1, 1, "check"));
+    scheme2.print_all_figures();
 }
 
 int main() {
